@@ -1,9 +1,9 @@
 import connection from "../database/db.js";
 
-async function getCategoryRepoditory() {
+async function getCategoryRepository(consult) {
   const result = await connection.query(
     `
-      SELECT * FROM categories;
+      SELECT * FROM ${consult};
     `
   );
   return result;
@@ -18,4 +18,4 @@ async function postCategoryRepoditory(name) {
 
   return result;
 }
-export { getCategoryRepoditory, postCategoryRepoditory };
+export { getCategoryRepository, postCategoryRepoditory };

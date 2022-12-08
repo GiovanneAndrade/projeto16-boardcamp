@@ -2,9 +2,10 @@ import * as allCategories from "../resositories/categories.repository.js";
 import { postCategorySchema } from "../schemas/categories.schema.js";
 
 const postcategoryMiddlewares = async function (req, res, next) {
+  const consult = 'categories'
   let { name } = req.body;
   name = name.replace(/[^a-z0-9]/gi, "");
-  const result = await allCategories.getCategoryRepoditory();
+  const result = await allCategories.getCategoryRepository(consult);
   const validationName = result.rows.filter(
     (i) => i.name.replace(/[^a-z0-9]/gi, "") === name
   );
@@ -17,7 +18,7 @@ const postcategoryMiddlewares = async function (req, res, next) {
     abortEarly: false,
   });
   if (valiCadastro.error) {
-    const erro = valiCadastro.error.details.map((err) => err.message);
+    /* const erro = valiCadastro.error.details.map((err) => err.message); */
     return res.sendStatus(409);
   }
   next();

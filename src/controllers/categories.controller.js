@@ -1,8 +1,9 @@
 import * as allCategories from "../resositories/categories.repository.js";
 
 async function getCategoryController(req, res) {
+  const consult = 'categories'
   try {
-    const result = await allCategories.getCategoryRepoditory();
+    const result = await allCategories.getCategoryRepository(consult);
     
     return res.send(result.rows);
   } catch (error) {
