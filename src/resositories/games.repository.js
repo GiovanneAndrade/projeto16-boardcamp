@@ -11,10 +11,10 @@ async function getGamesRepoditory() {
 
   return result;
 }
-async function getQueryGamesRepoditory(name) {
+async function getQueryGamesRepoditory({toValue, toQuery, toWhere}) {
   const result = await connection.query(
     `
-      SELECT * FROM games WHERE name ILIKE '${name}%'
+      SELECT * FROM ${toQuery} WHERE ${toWhere} ILIKE '${toValue}%'
    `
   );
 
