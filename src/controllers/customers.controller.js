@@ -22,6 +22,18 @@ async function getCustomersController(req, res) {
   }
 }
 
+async function postCustomersController(req, res) {
+  let { name, phone, cpf, birthday } = req.body;
+ 
+  //cpf = cpf.trim().replace(/( )+/g, " ");
+  cpf = cpf.replace(/[^a-z0-9]/gi, "");
+  console.log(cpf);
+  try {
+    await allCustomers.postCustomersRepository({ name, phone, cpf, birthday });
+    return res.sendStatus(201);
+  } catch (error) {
+    return res.sendStatus(500).send(error);
+  }
+}
 
-
-export { getCustomersController };
+export { getCustomersController, postCustomersController };
