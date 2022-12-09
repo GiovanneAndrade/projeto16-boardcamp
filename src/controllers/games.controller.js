@@ -2,8 +2,11 @@ import * as allGames from "../resositories/games.repository.js";
 
 async function getGamesController(req, res) {
   const { name } = req.query
+  const toQuery = 'games'
+  const toWhere =   'name'
+  const toValue = name
   if(name){
-    const resultGameQuery = await allGames.getQueryGamesRepoditory(name);
+    const resultGameQuery = await allGames.getQueryGamesRepoditory({toValue, toQuery, toWhere});
     return res.send(resultGameQuery.rows);
   }
   try {
