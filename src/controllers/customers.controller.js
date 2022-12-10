@@ -36,7 +36,16 @@ async function postCustomersController(req, res) {
   }
 }
 
+async function getIdCustomersController(req, res) {
+  const { id } = req.params;
 
+  try {
+    const resultId = await allCustomers.getIdCustomersRepository({ id });
+    return res.send(resultId.rows[0]);
+  } catch (error) {
+    return res.sendStatus(500).send(error);
+  }
+}
 
 async function putCustomersController(req, res) {
   const { id } = req.params;
@@ -63,5 +72,5 @@ export {
   getCustomersController,
   postCustomersController,
   putCustomersController,
- 
+  getIdCustomersController,
 };
