@@ -8,7 +8,7 @@ const router = Router();
 router.get("/customers", getCustomersController );
 router.get("/customers/:id",getIdCustomersMiddlewares, getIdCustomersController );
 router.post("/customers",postCustomersMiddlewares, postCustomersController );
-
+router.put("/customers/:id", postCustomersMiddlewares, putCustomersController );
  
 
 export default router;
