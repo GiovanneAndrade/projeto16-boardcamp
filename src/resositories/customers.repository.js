@@ -9,7 +9,16 @@ async function getCustomersRepository() {
 
   return result;
 }
+async function getIdCustomersRepository({id}) {
 
+  const result = await connection.query(
+    `
+      SELECT * FROM customers WHERE id = ${id};
+   `
+  );
+
+  return result;
+}
 
 async function postCustomersRepository({ name, phone, cpf, birthday }) {
   const result = await connection.query(
@@ -39,5 +48,5 @@ export {
   getCustomersRepository,
   postCustomersRepository,
   putCustomersRepository,
- 
+  getIdCustomersRepository,
 };
