@@ -1,14 +1,7 @@
 import connection from "../database/db.js";
 
-async function getRentalsRepoditory() {
-  const result = await connection.query(
-    `
-     SELECT * FROM rentals;
-   `
-  );
-  return result;
-}
-async function getConsultRentalsRepoditory({gameId}) {
+
+async function getConsultRentalsRepoditory({ gameId }) {
   const result = await connection.query(
     `
     SELECT * FROM rentals WHERE "gameId" = ${gameId};
@@ -50,4 +43,32 @@ async function postRentalsRepoditory({
 
   return result;
 }
-export { getRentalsRepoditory, postRentalsRepoditory, getConsultRentalsRepoditory };
+
+async function postIdRentalsRepoditory({ date, delayFee, id }) {
+  const result = await connection.query(
+    ` 
+      UPDATE rentals 
+      SET "returnDate" = $1, "delayFee" = $2
+      WHERE id = $3;
+    `,
+    [date, delayFee, id]
+  );
+  return result;
+}
+
+async function deleteIdRentalsRepoditory({ id }) {
+  const result = await connection.query(
+    ` 
+    DELETE FROM rentals WHERE id = ${id};
+    `
+  );
+  return result;
+}
+
+export {
+  
+  postRentalsRepoditory,
+  getConsultRentalsRepoditory,
+  postIdRentalsRepoditory,
+  deleteIdRentalsRepoditory,
+};
