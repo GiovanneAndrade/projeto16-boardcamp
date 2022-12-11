@@ -9,11 +9,11 @@ async function getCustomersRepository() {
 
   return result;
 }
-async function getIdCustomersRepository({id}) {
+async function getIdCustomersRepository({id, consult}) {
 
   const result = await connection.query(
     `
-      SELECT * FROM customers WHERE id = ${id};
+      SELECT * FROM ${consult} WHERE id = ${id};
    `
   );
 
