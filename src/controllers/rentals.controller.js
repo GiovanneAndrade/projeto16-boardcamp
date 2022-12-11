@@ -79,7 +79,29 @@ async function postRentalsController(req, res) {
   }
 }
 
- 
+async function postIdRentalsController(req, res) {
+  const { id } = req.params;
+  const consult = "rentals";
+  const consultRentals = await allCustomers.getIdCustomersRepository({
+    id,
+    consult,
+  });
+
+  const { rentDate, daysRented, originalPrice } = consultRentals.rows[0];
+  const date = dayjs().format("YYYY-MM-DD");
+  const isDelay = dayjs().diff(rentDate, "day");
+  let delayFee;
+  if (isDelay > daysRented) delayFee = isDelay - daysRented;
+  else delayFee = 0;
+  delayFee = delayFee * originalPrice;
+  try {
+    await allRentals.postIdRentalsRepoditory({ date, delayFee, id });
+    return res.sendStatus(200);
+  } catch (error) {
+    return res.sendStatus(500).send(error);
+  }
+}
+
 async function deleteIdRentalsController(req, res) {
   const { id } = req.params;
   try {
@@ -93,6 +115,6 @@ async function deleteIdRentalsController(req, res) {
 export {
   getRentalsController,
   postRentalsController,
- 
+  postIdRentalsController,
   deleteIdRentalsController,
 };
