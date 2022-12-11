@@ -38,9 +38,9 @@ async function postCustomersController(req, res) {
 
 async function getIdCustomersController(req, res) {
   const { id } = req.params;
-
+  const consult = "customers";
   try {
-    const resultId = await allCustomers.getIdCustomersRepository({ id });
+    const resultId = await allCustomers.getIdCustomersRepository({ id, consult });
     return res.send(resultId.rows[0]);
   } catch (error) {
     return res.sendStatus(500).send(error);
