@@ -1,6 +1,32 @@
 import connection from "../database/db.js";
 
+async function getRentalsRepoditory({ consult, consultWhere }) {
+  console.log(consult)
+  const consultAll = `SELECT rentals.*,  
+    games.id as "gameId", 
+    games.name as "gameName",
+    games."categoryId" as "gameCategoryId",
+      customers.name as "customerName", 
+      customers.id as "customerId", 
+      categories.id as "categoryId", 
+      categories.name as "categoryName" 
+    FROM rentals
+    JOIN games
+    ON rentals."gameId" = games.id
+    JOIN customers
+    ON rentals."customerId" = customers.id
+    JOIN categories
+    ON games."categoryId" = categories.id`;
+    if(!consult){
+      const result = await connection.query(` ${consultAll}`);
+      return result
+    }
+   const result = await connection.query(` ${consultAll} where ${consultWhere} = ${consult}`);
 
+    return result;
+   
+ 
+}
 async function getConsultRentalsRepoditory({ gameId }) {
   const result = await connection.query(
     `
@@ -66,7 +92,7 @@ async function deleteIdRentalsRepoditory({ id }) {
 }
 
 export {
-  
+  getRentalsRepoditory,
   postRentalsRepoditory,
   getConsultRentalsRepoditory,
   postIdRentalsRepoditory,
