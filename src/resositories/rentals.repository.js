@@ -16,5 +16,38 @@ async function getConsultRentalsRepoditory({gameId}) {
   );
   return result;
 }
+async function postRentalsRepoditory({
+  customerId,
+  gameId,
+  rentDate,
+  daysRented,
+  returnDate,
+  originalPrice,
+  delayFee,
+}) {
+  const result = await connection.query(
+    `INSERT INTO rentals 
+    (
+      "customerId",
+      "gameId",
+      "rentDate",
+      "daysRented",
+      "returnDate",
+      "originalPrice",
+      "delayFee"
+    ) 
+      VALUES ($1, $2, $3, $4, $5, $6, $7)`,
+    [
+      customerId,
+      gameId,
+      rentDate,
+      daysRented,
+      returnDate,
+      originalPrice,
+      delayFee,
+    ]
+  );
 
-export { getRentalsRepoditory, getConsultRentalsRepoditory };
+  return result;
+}
+export { getRentalsRepoditory, postRentalsRepoditory, getConsultRentalsRepoditory };
