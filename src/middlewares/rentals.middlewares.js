@@ -1,14 +1,12 @@
 import * as allCustomers from "../resositories/customers.repository.js";
 import * as allRentals from "../resositories/rentals.repository.js";
 
+
+ 
 async function postRentalsMiddlewares(req, res, next) {
-  const convertgameId = Number(req.body.gameId);
-  const convertCustomerId = Number(req.body.customerId);
-  const convertDaysRented = Number(req.body.daysRented);
-  
-  if (!convertDaysRented || !convertCustomerId || !convertgameId) {
-    return res.send("customerId, gameId, daysRented error");
-  }
+ 
+
+ 
   let { customerId, gameId, daysRented } = req.body;
   daysRented = Number(daysRented) * 1;
   let id = gameId;
@@ -35,8 +33,58 @@ async function postRentalsMiddlewares(req, res, next) {
     consultGames.rows.length === 0 ||
     consultGames.rows[0].stockTotal < consultRentals
   ) {
-    return res.sendStatus(404);
+    return res.sendStatus(400);
   }
   next();
 }
-export { postRentalsMiddlewares };
+
+async function postIdRentalsMiddlewares(req, res, next) {
+  let { id } = req.params;
+  id = Number(id) * 1;
+  if (!id) {
+    return res.status(404).send("id not specified");
+  }
+  const consult = "rentals";
+  const consultRentals = await allCustomers.getIdCustomersRepository({
+    id,
+    consult,
+  });
+  if (consultRentals.rows.length === 0) {
+    return res.sendStatus(404);
+  }
+  const { returnDate } = consultRentals.rows[0];
+  if (returnDate) {
+    return res.sendStatus(400);
+  }
+  next();
+}
+
+async function deleteIdRentalsMiddlewares(req, res, next) {
+  let { id } = req.params;
+  id = Number(id) * 1;
+  if (!id) {
+    return res.status(404).send("id not specified");
+  }
+  const consult = "rentals";
+  const consultRentals = await allCustomers.getIdCustomersRepository({
+    id,
+    consult,
+  });
+  if (consultRentals.rows.length === 0) {
+    return res.sendStatus(404);
+  }
+  const { returnDate } = consultRentals.rows[0];
+  if (!returnDate) {
+    return res.sendStatus(400);
+  }
+  next();
+}
+
+
+
+export {
+  
+  postRentalsMiddlewares,
+  postIdRentalsMiddlewares,
+  deleteIdRentalsMiddlewares,
+};
