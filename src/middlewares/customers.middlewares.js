@@ -14,12 +14,12 @@ const postCustomersMiddlewares = async function (req, res, next) {
   if (validationCpf.length > 0) {
     return res.sendStatus(409);
   }
-
+ 
   
   const valiCadastro = postCustomersSchema.validate(req.body, {
     abortEarly: false,
   });
-  if (valiCadastro.error || !convertId) {
+  if (valiCadastro.error ) {
     return res.sendStatus(400);
   }
 

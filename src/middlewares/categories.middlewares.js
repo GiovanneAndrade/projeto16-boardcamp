@@ -9,9 +9,9 @@ const postcategoryMiddlewares = async function (req, res, next) {
   const validationName = result.rows.filter(
     (i) => i.name.replace(/[^a-z0-9]/gi, "") === name
   );
-  console.log(validationName);
+ 
   if (validationName.length > 0) {
-    return res.sendStatus(400);
+    return res.sendStatus(409);
   }
 
   const valiCadastro = postCategorySchema.validate(req.body, {
@@ -19,7 +19,7 @@ const postcategoryMiddlewares = async function (req, res, next) {
   });
   if (valiCadastro.error) {
     /* const erro = valiCadastro.error.details.map((err) => err.message); */
-    return res.sendStatus(409);
+    return res.sendStatus(400);
   }
   next();
 };
