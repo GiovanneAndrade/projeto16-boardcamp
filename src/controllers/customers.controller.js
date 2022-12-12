@@ -27,7 +27,8 @@ async function postCustomersController(req, res) {
 
   //cpf = cpf.trim().replace(/( )+/g, " ");
   cpf = cpf.replace(/[^a-z0-9]/gi, "");
-  console.log(cpf);
+  name = name.trim().replace(/( )+/g, " ");
+  
   try {
     await allCustomers.postCustomersRepository({ name, phone, cpf, birthday });
     return res.sendStatus(200);
@@ -51,7 +52,7 @@ async function putCustomersController(req, res) {
   const { id } = req.params;
   let { name, phone, cpf, birthday } = req.body;
 
-  //cpf = cpf.trim().replace(/( )+/g, " ");
+  name = name.trim().replace(/( )+/g, " ");
   cpf = cpf.replace(/[^a-z0-9]/gi, "");
 
   try {
